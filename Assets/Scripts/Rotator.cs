@@ -5,9 +5,12 @@ using UnityEngine;
 public class Rotator : MonoBehaviour
 {
 
-    // Update is called once per frame
-    void Update()
+    void Start()
     {
-       transform.Rotate (new Vector3  (30,0,0)*Time.deltaTime);
+        transform.Rotate( new Vector3 (0,0,90));
+    }
+    void Update()
+    { 
+        transform.Rotate (new Vector3  (25,0,0)*Time.deltaTime);
     }
 }
