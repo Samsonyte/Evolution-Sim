@@ -634,5 +634,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   food: {fileID: 4793867256054438705, guid: 98bb0aecc2d54a24692a4a92f77c6bd2, type: 3}
   creature: {fileID: 7775625415243122851, guid: 6367463417c177149bc01c155086f5be, type: 3}
-  foodCount: 10
-  creatureCount: 20
+  foodCount: 24
+  creatureCount: 38
