@@ -6,10 +6,10 @@ public class CreatureController : MonoBehaviour
 {
     NavMeshAgent agent;
     public GameObject sensor;
-    public int eaten;
     public string state="searching";
     public Vector3 randDest;
     public int foodEaten=0;
+    public float speed; 
     [SerializeField, Range(5,600)]
     public float daytime;
     [SerializeField, Range(0,100000)]
@@ -20,11 +20,11 @@ public class CreatureController : MonoBehaviour
       Transform loc=this.transform;
       Instantiate(sensor, new Vector3(loc.position.x, loc.position.y, loc.position.z), Quaternion.identity);
       agent=this.GetComponent<NavMeshAgent>();
+      speed = GetComponent<NavMeshAgent>().speed;
       randDest = newDest();
     }
 
-    void Update()
-    {
+    void Update(){
       energy--;
       daytime-=Time.deltaTime;
       if(energy<=0){
@@ -33,6 +33,7 @@ public class CreatureController : MonoBehaviour
         if(state=="searching"){
           if(this.transform.position.x-randDest.x <.5 & this.transform.position.z-randDest.z<.5){
             randDest=newDest();
+            //float d = 46- Mathf.Sqrt()
           }
         }
         if (state != "home"){
@@ -40,6 +41,7 @@ public class CreatureController : MonoBehaviour
             Die();
           }
         }
+
     }
 
       Vector3 newDest(){
@@ -57,20 +59,34 @@ public class CreatureController : MonoBehaviour
         foodEaten++;
         if(foodEaten>= 2){
           state="goHome";
-          goHome();
+          goHome(this.transform.position.x, this.transform.position.z);
         }
       }
     }
 
-void goHome(){
-      
-      //Vector3 newHomeDest= new Vector3(x,1,z);
-     // agent.SetDestination(newHandDest);
+void goHome(x,z){
+  if(Mathf.Abs(x)>Mathf.Abs(z)){
+                if(x<0){
+                    x=-46;
+                }else{
+                    x=46;
+                }
+            }else{
+                if(z<0){
+                    z=-46;
+                }else{
+                    z=46;
+                } 
+            }
+      Vector3 newHomeDest= new Vector3(x,1,z);
+      agent.SetDestination(newHomeDest);
       
     }
 
+  //boolean shouldGoHome(x, z);
     void Die(){
        agent.SetDestination(new Vector3(this.transform.position.x,1,this.transform.position.z));
        Destroy(gameObject, 4);
     }
+
 }

@@ -114,8 +114,8 @@ MonoBehaviour:
   state: searching
   randDest: {x: 0, y: 0, z: 0}
   foodEaten: 0
-  daytime: 5
-  energy: 90705
+  daytime: 340
+  energy: 15828
 --- !u!195 &-4337770730853607493
 NavMeshAgent:
   m_ObjectHideFlags: 0
