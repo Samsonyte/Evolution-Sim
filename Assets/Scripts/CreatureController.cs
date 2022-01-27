@@ -14,6 +14,8 @@ public class CreatureController : MonoBehaviour
     public float daytime;
     [SerializeField, Range(0,100000)]
     public int energy;
+    public float dx;
+    public float dz;
 
     void Start()
     {
@@ -21,6 +23,8 @@ public class CreatureController : MonoBehaviour
       Instantiate(sensor, new Vector3(loc.position.x, loc.position.y, loc.position.z), Quaternion.identity);
       agent=this.GetComponent<NavMeshAgent>();
       speed = GetComponent<NavMeshAgent>().speed;
+      dx=1000;
+      dz=1000;
       randDest = newDest();
     }
 
@@ -33,7 +37,13 @@ public class CreatureController : MonoBehaviour
         if(state=="searching"){
           if(this.transform.position.x-randDest.x <.5 & this.transform.position.z-randDest.z<.5){
             randDest=newDest();
-            //float d = 46- Mathf.Sqrt()
+            if(46/speed<daytime -1){
+              dx = 46 - Mathf.Abs(this.transform.position.x);
+              dz = 46 - Mathf.Abs(this.transform.position.z);
+              if(dx/speed < daytime-1 || dz/speed < daytime -1){
+                goHome(this.transform.position.x, this.transform.position.z);
+              }
+            }
           }
         }
         if (state != "home"){
@@ -64,7 +74,7 @@ public class CreatureController : MonoBehaviour
       }
     }
 
-void goHome(x,z){
+void goHome(float x, float z){
   if(Mathf.Abs(x)>Mathf.Abs(z)){
                 if(x<0){
                     x=-46;
@@ -83,7 +93,6 @@ void goHome(x,z){
       
     }
 
-  //boolean shouldGoHome(x, z);
     void Die(){
        agent.SetDestination(new Vector3(this.transform.position.x,1,this.transform.position.z));
        Destroy(gameObject, 4);

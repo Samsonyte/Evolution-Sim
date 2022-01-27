@@ -110,12 +110,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sensor: {fileID: 8271824552355061723, guid: 9dd356933fa5b994c84c53b8e58b2d7a, type: 3}
-  eaten: 0
   state: searching
   randDest: {x: 0, y: 0, z: 0}
   foodEaten: 0
-  daytime: 340
+  speed: 0
+  daytime: 97
   energy: 15828
+  d: 0
 --- !u!195 &-4337770730853607493
 NavMeshAgent:
   m_ObjectHideFlags: 0
