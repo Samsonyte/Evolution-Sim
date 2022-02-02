@@ -6,19 +6,24 @@ public class CreatureController : MonoBehaviour
 {
     NavMeshAgent agent;
     public GameObject sensor;
+    public GameObject field;
     public string state="searching";
     public Vector3 randDest;
     public int foodEaten=0;
     public float speed; 
-    [SerializeField, Range(5,600)]
-    public float daytime;
+    
     [SerializeField, Range(0,100000)]
-    public int energy;
-    public float dx = 1000;
-    public float dz = 1000;
+    public float energy;
+    public float daytime;
+    public float daytimeLeft;
+    public float currentX;
+    public float currentZ;
+    public float dx;
+    public float dz;
 
     void Start()
     {
+      daytimeLeft=daytime;
       Transform loc=this.transform;
       Instantiate(sensor, new Vector3(loc.position.x, loc.position.y, loc.position.z), Quaternion.identity);
       agent=this.GetComponent<NavMeshAgent>();
@@ -27,28 +32,35 @@ public class CreatureController : MonoBehaviour
     }
 
     void Update(){
-      energy--;
-      daytime-=Time.deltaTime;
+      currentX=this.transform.position.x;
+      currentZ=this.transform.position.z;
+      daytimeLeft-=Time.deltaTime;
       if(energy<=0){
-       Die();
+        Die();
       }
-        if(state=="searching"){
-          if(this.transform.position.x-randDest.x <.5 & this.transform.position.z-randDest.z<.5){
-            randDest=newDest();
-              dx = 46 - Mathf.Abs(this.transform.position.x);
-              dz = 46 - Mathf.Abs(this.transform.position.z);
-              if(dx/speed*speed < daytime-1 || dz/speed*speed < daytime -1 & foodEaten==1){
-                goHome(this.transform.position.x, this.transform.position.z);
-              }
+      if(state=="searching"){
+        if(currentX-randDest.x <.5 & currentZ-randDest.z<.5){
+          randDest=newDest();
             }
-          }
-        
-        if (state != "home"){
-          if(daytime<=0){
-            Die();
+            dx = 46 - Mathf.Abs(currentX);
+            dz = 46 - Mathf.Abs(currentZ);
+            if(dx/speed > daytimeLeft-1 || dz/speed > daytimeLeft -1 & foodEaten==1){
+              goHome(currentX, currentZ);
           }
         }
+      if(Mathf.Abs(currentX)>42 || Mathf.Abs(currentZ)>42){
+        if(state=="goingHome"){
+          state="home";
 
+        }
+      }
+      if (state != "home"){
+        energy--;
+        
+      }
+      if(daytimeLeft <= 0){
+        newDay();
+      }
     }
 
       Vector3 newDest(){
@@ -66,33 +78,49 @@ public class CreatureController : MonoBehaviour
         foodEaten++;
         if(foodEaten>= 2){
           state="goHome";
-          goHome(this.transform.position.x, this.transform.position.z);
+          goHome(currentX, currentZ);
         }
       }
     }
 
-void goHome(float x, float z){
-  if(Mathf.Abs(x)>Mathf.Abs(z)){
-                if(x<0){
-                    x=-46;
-                }else{
-                    x=46;
-                }
-            }else{
-                if(z<0){
-                    z=-46;
-                }else{
-                    z=46;
-                } 
-            }
+  void goHome(float x, float z){
+    if(Mathf.Abs(x)>Mathf.Abs(z)){
+        if(x<0){
+            x=-46;
+        }else{
+            x=46;
+        }
+        }else{
+        if(z<0){
+            z=-46;
+        }else{
+            z=46;
+        } 
+    }
       Vector3 newHomeDest= new Vector3(x,1,z);
       agent.SetDestination(newHomeDest);
-      
+      state="goingHome";
     }
 
-    void Die(){
-       agent.SetDestination(new Vector3(this.transform.position.x,1,this.transform.position.z));
-       Destroy(gameObject, 5);
-    }
+  void Die(){
+      agent.SetDestination(new Vector3(currentX,1,currentZ));
+      Destroy(gameObject, 3);
+  }
 
+  public void newDay(){
+    if(foodEaten>=2 & state == "home"){
+       Instantiate(this, new Vector3(currentX,1,currentZ), Quaternion.identity);
+       field.GetComponent<Spawner>().creatureCount++;
+       state="searching";
+       randDest=newDest();
+    }else if(foodEaten==1){
+      state="searching";
+      randDest=newDest();
+    }
+    if(state != "home" || foodEaten == 0){
+      Die();
+      field.GetComponent<Spawner>().creatureCount--;
+    }
+    daytimeLeft=daytime;
+  }
 }
