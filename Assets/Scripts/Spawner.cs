@@ -6,6 +6,7 @@ public class Spawner : MonoBehaviour
 {
     public GameObject food;
     public GameObject creature;
+    public Light sun;
     [SerializeField, Range(5,600)]
     public float daytime;
     public float daytimeLeft;
@@ -17,6 +18,7 @@ public class Spawner : MonoBehaviour
 
     void Start()
     {
+        sun = GetComponent<Light>();
         Spawn(foodCount, food, false);
         Spawn(creatureCount,creature, true);
         daytimeLeft=daytime;
@@ -26,6 +28,7 @@ public class Spawner : MonoBehaviour
     void Update(){
         daytimeLeft-=Time.deltaTime;
         if(daytimeLeft <= 0){
+            dayEnd();
             Spawn(foodCount, food, false);
             daytimeLeft=daytime;
 
@@ -53,5 +56,8 @@ public class Spawner : MonoBehaviour
                 }
             Instantiate(obid, new Vector3(x,1,z), Quaternion.identity);
         }
+    }
+    void dayEnd(){
+        sun.intensity=.1f;
     }
 }
