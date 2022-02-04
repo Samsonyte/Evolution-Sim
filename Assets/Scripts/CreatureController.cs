@@ -59,7 +59,7 @@ public class CreatureController : MonoBehaviour
       
     }
     if(daytimeLeft <= 0){
-      newDay();
+      newDayC();
     }
   }
 
@@ -107,7 +107,7 @@ public class CreatureController : MonoBehaviour
       Destroy(gameObject, 3);
   }
 
-  public void newDay(){
+  public void newDayC(){
     if(foodEaten>=2 & state == "home"){
        Instantiate(this, new Vector3(currentX,1,currentZ), Quaternion.identity);
        field.GetComponent<Spawner>().creatureCount++;

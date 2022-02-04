@@ -18,7 +18,6 @@ public class Spawner : MonoBehaviour
 
     void Start()
     {
-        sun = GetComponent<Light>();
         Spawn(foodCount, food, false);
         Spawn(creatureCount,creature, true);
         daytimeLeft=daytime;
@@ -27,13 +26,10 @@ public class Spawner : MonoBehaviour
 
     void Update(){
         daytimeLeft-=Time.deltaTime;
-        if(daytimeLeft <= 0){
-            dayEnd();
-            Spawn(foodCount, food, false);
-            daytimeLeft=daytime;
-
-            }
+        if(daytimeLeft <= 5){
+            StartCoroutine(dayEnd());
         }
+    }
 
     void Spawn(int obcount, GameObject obid, bool edge){
          for(int i=0; i<obcount; i++){
@@ -57,7 +53,22 @@ public class Spawner : MonoBehaviour
             Instantiate(obid, new Vector3(x,1,z), Quaternion.identity);
         }
     }
-    void dayEnd(){
-        sun.intensity=.1f;
+    IEnumerator dayEnd(){ 
+        for(float i = 5; i>0;i-=Time.deltaTime){
+            if(i>0){
+                sun.intensity = i/5;
+                yield return null;
+            }
+            if(sun.intensity<.1){
+                newDayS();
+                StopCoroutine(dayEnd());
+            }
+            
+        }
+    }
+    void newDayS(){
+        sun.intensity=1;
+        //Spawn(foodCount, food, false);
+        daytimeLeft=daytime;
     }
 }
