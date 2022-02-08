@@ -115,13 +115,12 @@ MonoBehaviour:
   randDest: {x: 0, y: 0, z: 0}
   foodEaten: 0
   speed: 0
-  daytime: 15
+  startEnergy: 10000
   energy: 15828
+  daytime: 20
   daytimeLeft: 0
   currentX: 0
   currentZ: 0
-  dx: 0
-  dz: 0
 --- !u!195 &-4337770730853607493
 NavMeshAgent:
   m_ObjectHideFlags: 0

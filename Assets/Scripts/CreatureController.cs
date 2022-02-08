@@ -8,12 +8,14 @@ public class CreatureController : MonoBehaviour
   NavMeshAgent agent;
   public GameObject sensor;
   public GameObject field;
+  public int trackingNumber;
   public string state;
   public Vector3 randDest;
   public int foodEaten=0;
   public float speed; 
   
   [SerializeField, Range(0,100000)]
+  public float startEnergy;
   public float energy;
   public float daytime;
   public float daytimeLeft;
@@ -27,6 +29,7 @@ public class CreatureController : MonoBehaviour
     Instantiate(sensor, new Vector3(loc.position.x, loc.position.y, loc.position.z), Quaternion.identity);
     agent=this.GetComponent<NavMeshAgent>();
     speed = GetComponent<NavMeshAgent>().speed;
+    energy=startEnergy;
     state="searching";
     randDest = newDest();
   }
@@ -58,8 +61,8 @@ public class CreatureController : MonoBehaviour
       energy--;
       
     }
-    if(daytimeLeft <= 0){
-      newDayC();
+    if(daytimeLeft <= -1){
+      //newDayC();
     }
   }
 
@@ -104,16 +107,19 @@ public class CreatureController : MonoBehaviour
 
   void Die(){
       agent.SetDestination(new Vector3(currentX,1,currentZ));
-      Destroy(gameObject, 3);
+      Destroy(gameObject, 1);
   }
 
   public void newDayC(){
+    energy=startEnergy;
     if(foodEaten>=2 & state == "home"){
        Instantiate(this, new Vector3(currentX,1,currentZ), Quaternion.identity);
        field.GetComponent<Spawner>().creatureCount++;
+       foodEaten=0;
        state="searching";
        randDest=newDest();
     }else if(foodEaten==1){
+      foodEaten=0;
       state="searching";
       randDest=newDest();
     }
