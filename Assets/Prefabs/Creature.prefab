@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -4337770730853607493}
   m_Layer: 0
   m_Name: Creature
-  m_TagString: Untagged
+  m_TagString: Creature
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -111,13 +111,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sensor: {fileID: 8271824552355061723, guid: 9dd356933fa5b994c84c53b8e58b2d7a, type: 3}
   field: {fileID: 6173080206677061887, guid: 77022253cb92ced458926887a6890a73, type: 3}
+  trackingNumber: 0
   state: searching
   randDest: {x: 0, y: 0, z: 0}
   foodEaten: 0
   speed: 0
   startEnergy: 10000
   energy: 15828
-  daytime: 20
+  daytime: 10
   daytimeLeft: 0
   currentX: 0
   currentZ: 0

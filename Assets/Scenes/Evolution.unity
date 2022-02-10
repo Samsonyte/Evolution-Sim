@@ -545,7 +545,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6173080206677061882, guid: 77022253cb92ced458926887a6890a73, type: 3}
       propertyPath: foodCount
-      value: 40
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 6173080206677061882, guid: 77022253cb92ced458926887a6890a73, type: 3}
       propertyPath: daytimeLeft

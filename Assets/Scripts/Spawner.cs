@@ -15,16 +15,17 @@ public class Spawner : MonoBehaviour
     [SerializeField, Range(0,100)]
     public int creatureCount = 10;
     
-    public List<GameObject> creatures = new List<GameObject>();
-    public List<GameObject> foods = new List<GameObject>();
+    public GameObject[] creatures;
+    public GameObject[] foods;
 
     void Start()
     {
         creature.GetComponent<CreatureController>().daytime=daytime;
-        Spawn(foodCount, food, false, foods);
-        Spawn(creatureCount,creature, true, creatures);
+        Spawn(foodCount, food, false);
+        Spawn(creatureCount,creature, true);
+        newArrays();
         daytimeLeft=daytime;
-        for(int j=0; j < creatures.Count; j++){
+        for(int j=0; j < creatures.Length; j++){
             creatures[j].GetComponent<CreatureController>().trackingNumber=j;
         }
     }
@@ -36,7 +37,7 @@ public class Spawner : MonoBehaviour
         }
     }
 
-    void Spawn(int obcount, GameObject obid, bool edge, List<GameObject> addto){
+    void Spawn(int obcount, GameObject obid, bool edge){
          for(int i=0; i<obcount; i++){
                 float x= Random.Range(-42,42);
                 float z= Random.Range(-42,42);
@@ -55,31 +56,34 @@ public class Spawner : MonoBehaviour
                         }
                     }
                 }
-            addto.Add(Instantiate(obid, new Vector3(x,1,z), Quaternion.identity));
+            Instantiate(obid, new Vector3(x,1,z), Quaternion.identity);
         }
     }
     IEnumerator dayEnd(float t){
         t-=Time.deltaTime;
             if(t>0){
                 sun.intensity = t/5;
-                Debug.Log("t is "+t);
+              //  Debug.Log("t is "+t);
                 yield return null;
             }
             if(t <=-1 ){
-                Debug.Log("Success, t is " + t);
                 newDayS();
+                newArrays();
             }
-            
         }
     
     void newDayS(){
         sun.intensity=1;
         StopCoroutine(dayEnd(0));
-        Spawn(foodCount, food, false, foods);
+        Spawn(foodCount, food, false);
         daytimeLeft=daytime;
-        for(int i=0;i<creatures.Count;i++){
+        for(int i=0;i<creatures.Length;i++){
             creatures[i].GetComponent<CreatureController>().newDayC();
         }
         
+    }
+    void newArrays(){
+        creatures = GameObject.FindGameObjectsWithTag("Creature");
+        foods = GameObject.FindGameObjectsWithTag("Food");
     }
 }

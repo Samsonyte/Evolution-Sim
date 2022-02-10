@@ -59,10 +59,6 @@ public class CreatureController : MonoBehaviour
     }
     if (state != "home"){
       energy--;
-      
-    }
-    if(daytimeLeft <= -1){
-      //newDayC();
     }
   }
 
@@ -111,22 +107,24 @@ public class CreatureController : MonoBehaviour
   }
 
   public void newDayC(){
+    Debug.Log("newDayC");
     energy=startEnergy;
-    if(foodEaten>=2 & state == "home"){
+    if(state != "home"){
+      //Die();
+      Destroy(gameObject);
+      field.GetComponent<Spawner>().creatureCount--;
+    }else if(foodEaten >= 2){
        Instantiate(this, new Vector3(currentX,1,currentZ), Quaternion.identity);
        field.GetComponent<Spawner>().creatureCount++;
        foodEaten=0;
        state="searching";
        randDest=newDest();
-    }else if(foodEaten==1){
+    }else if(foodEaten == 1){
       foodEaten=0;
       state="searching";
       randDest=newDest();
     }
-    if(state != "home" || foodEaten == 0){
-      Die();
-      field.GetComponent<Spawner>().creatureCount--;
-    }
+    
     daytimeLeft=daytime;
   }
 }
