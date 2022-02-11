@@ -6,6 +6,7 @@ public class Spawner : MonoBehaviour
 {
     public GameObject food;
     public GameObject creature;
+    public GameObject sensor;
     public Light sun;
     [SerializeField, Range(5,600)]
     public float daytime;
@@ -17,12 +18,13 @@ public class Spawner : MonoBehaviour
     
     public GameObject[] creatures;
     public GameObject[] foods;
+    public GameObject[] sensors;
 
     void Start()
     {
         creature.GetComponent<CreatureController>().daytime=daytime;
-        Spawn(foodCount, food, false);
-        Spawn(creatureCount,creature, true);
+        Spawn(foodCount, food, sensor, false);
+        Spawn(creatureCount,creature, sensor, true);
         newArrays();
         daytimeLeft=daytime;
         for(int j=0; j < creatures.Length; j++){
@@ -37,7 +39,7 @@ public class Spawner : MonoBehaviour
         }
     }
 
-    void Spawn(int obcount, GameObject obid, bool edge){
+    void Spawn(int obcount, GameObject obid, GameObject ob2id, bool edge){
          for(int i=0; i<obcount; i++){
                 float x= Random.Range(-42,42);
                 float z= Random.Range(-42,42);
@@ -55,6 +57,7 @@ public class Spawner : MonoBehaviour
                             z=46;
                         }
                     }
+                    //Instantiate(ob2id, new Vector3(x,1,z), Quaternion.identity);
                 }
             Instantiate(obid, new Vector3(x,1,z), Quaternion.identity);
         }
@@ -75,7 +78,7 @@ public class Spawner : MonoBehaviour
     void newDayS(){
         sun.intensity=1;
         StopCoroutine(dayEnd(0));
-        Spawn(foodCount, food, false);
+        Spawn(foodCount, food, sensor, false);
         daytimeLeft=daytime;
         for(int i=0;i<creatures.Length;i++){
             creatures[i].GetComponent<CreatureController>().newDayC();

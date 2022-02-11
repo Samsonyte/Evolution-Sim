@@ -540,6 +540,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 705507994}
     - target: {fileID: 6173080206677061882, guid: 77022253cb92ced458926887a6890a73, type: 3}
+      propertyPath: sensor
+      value: 
+      objectReference: {fileID: 8271824552355061723, guid: 9dd356933fa5b994c84c53b8e58b2d7a, type: 3}
+    - target: {fileID: 6173080206677061882, guid: 77022253cb92ced458926887a6890a73, type: 3}
       propertyPath: daytime
       value: 10
       objectReference: {fileID: 0}
