@@ -26,7 +26,7 @@ public class CreatureController : MonoBehaviour
   {
     daytimeLeft=daytime;
     Transform loc=this.transform;
-    //Instantiate(sensor, new Vector3(loc.position.x, loc.position.y, loc.position.z), Quaternion.identity);
+   // field.GetComponent<Spawner>().sensors[trackingNumber] = Instantiate(sensor, new Vector3(loc.position.x, loc.position.y, loc.position.z), Quaternion.identity);
     agent=this.GetComponent<NavMeshAgent>();
     speed = GetComponent<NavMeshAgent>().speed;
     energy=startEnergy;
