@@ -26,7 +26,7 @@ public class CreatureController : MonoBehaviour
   {
     daytimeLeft=daytime;
     Transform loc=this.transform;
-   // field.GetComponent<Spawner>().sensors[trackingNumber] = Instantiate(sensor, new Vector3(loc.position.x, loc.position.y, loc.position.z), Quaternion.identity);
+    Instantiate(sensor, new Vector3(loc.position.x, loc.position.y, loc.position.z), Quaternion.identity);
     agent=this.GetComponent<NavMeshAgent>();
     speed = GetComponent<NavMeshAgent>().speed;
     energy=startEnergy;
@@ -112,17 +112,13 @@ public class CreatureController : MonoBehaviour
     if(state != "home"){
       //Die();
       Destroy(gameObject);
-      field.GetComponent<Spawner>().creatureCount--;
     }else if(foodEaten >= 2){
-       Instantiate(this, new Vector3(currentX,1,currentZ), Quaternion.identity);
-       field.GetComponent<Spawner>().creatureCount++;
-       foodEaten=0;
-       state="searching";
-       randDest=newDest();
+      Instantiate(this, new Vector3(currentX,1,currentZ), Quaternion.identity);
+      Instantiate(this, new Vector3(currentX,1,currentZ), Quaternion.identity);
+      Destroy(gameObject);
     }else if(foodEaten == 1){
-      foodEaten=0;
-      state="searching";
-      randDest=newDest();
+      Instantiate(this, new Vector3(currentX,1,currentZ), Quaternion.identity);
+      Destroy(gameObject);
     }
     
     daytimeLeft=daytime;
