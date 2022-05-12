@@ -545,11 +545,11 @@ PrefabInstance:
       objectReference: {fileID: 8271824552355061723, guid: 9dd356933fa5b994c84c53b8e58b2d7a, type: 3}
     - target: {fileID: 6173080206677061882, guid: 77022253cb92ced458926887a6890a73, type: 3}
       propertyPath: daytime
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 6173080206677061882, guid: 77022253cb92ced458926887a6890a73, type: 3}
       propertyPath: foodCount
-      value: 40
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 6173080206677061882, guid: 77022253cb92ced458926887a6890a73, type: 3}
       propertyPath: daytimeLeft
@@ -557,7 +557,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6173080206677061882, guid: 77022253cb92ced458926887a6890a73, type: 3}
       propertyPath: creatureCount
-      value: 30
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 6173080206677061886, guid: 77022253cb92ced458926887a6890a73, type: 3}
       propertyPath: m_RootOrder

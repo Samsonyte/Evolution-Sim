@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+//using System;
 using UnityEngine;
 
 public class Spawner : MonoBehaviour
@@ -17,7 +18,6 @@ public class Spawner : MonoBehaviour
     public int creatureCount = 10;
     
     public GameObject[] creatures;
-    public GameObject[] foods;
     public GameObject[] sensors;
 
     void Start()
@@ -62,12 +62,12 @@ public class Spawner : MonoBehaviour
         t-=Time.deltaTime;
             if(t>0){
                 sun.intensity = t/5;
-              //  Debug.Log("t is "+t);
                 yield return null;
             }
             if(t <=-1 ){
                 newArrays();
                 newDayS();
+                newArrays();
             }
         }
     
@@ -83,9 +83,12 @@ public class Spawner : MonoBehaviour
     }
     void newArrays(){
         creatures = GameObject.FindGameObjectsWithTag("Creature");
-        foods = GameObject.FindGameObjectsWithTag("Food"); 
         for(int j=0; j < creatures.Length; j++){
             creatures[j].GetComponent<CreatureController>().trackingNumber=j;
+            GameObject newSensor = Instantiate(sensor, new Vector3(0,0,0), Quaternion.identity);
+            newSensor.GetComponent<Sensor>().trackingNumber = j;
+            newSensor.GetComponent<Sensor>().creatArray = creatures;
         }
     }
+
 }

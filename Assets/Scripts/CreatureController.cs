@@ -9,6 +9,7 @@ public class CreatureController : MonoBehaviour
   public GameObject sensor;
   public GameObject field;
   public int trackingNumber;
+  public GameObject[] sensorList;
   public string state;
   public Vector3 randDest;
   public int foodEaten=0;
@@ -26,8 +27,8 @@ public class CreatureController : MonoBehaviour
   {
     daytimeLeft=daytime;
     Transform loc=this.transform;
-    Instantiate(sensor, new Vector3(loc.position.x, loc.position.y, loc.position.z), Quaternion.identity);
     agent=this.GetComponent<NavMeshAgent>();
+    GetComponent<NavMeshAgent>().speed += Random.Range(-1,2);
     speed = GetComponent<NavMeshAgent>().speed;
     energy=startEnergy;
     state="searching";
@@ -70,11 +71,17 @@ public class CreatureController : MonoBehaviour
     return (newRandDest);
   }
 
+    public void foodDest(float x,float z){
+      Vector3 newFoodDest= new Vector3(x,1,z);
+      agent.SetDestination(newFoodDest);
+  }
+
   void OnTriggerEnter(Collider other){
-    if(other.gameObject.CompareTag("Food")){
+    if(other.gameObject.CompareTag("Taken Food")){
       other.gameObject.SetActive(false);
       energy += 1000;
       foodEaten++;
+      state = "searching";
       if(foodEaten>= 2){
         state="goHome";
         goHome(currentX, currentZ);
@@ -107,7 +114,7 @@ public class CreatureController : MonoBehaviour
   }
 
   public void newDayC(){
-    Debug.Log("newDayC");
+    Debug.Log("Number "+ trackingNumber);
     energy=startEnergy;
     if(state != "home"){
       //Die();
